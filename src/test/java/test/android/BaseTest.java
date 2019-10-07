@@ -2,7 +2,11 @@ package test.android;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Attachment;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import test.pages.MainPage;
@@ -11,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Properties;
 
 public class BaseTest {
@@ -70,8 +75,45 @@ public class BaseTest {
         return properties;
     }
 
-    @AfterMethod
-    public void closeDriver() {
+    @Attachment(value = "{0}", type = "text/plain")
+    private String attachFile(String attachName, String message) {
+        return Optional.ofNullable(message).orElse(null);
+    }
+
+    @Attachment(value = "{0}", type = "image/png")
+    private synchronized byte[] attachScreenshot(String screenshotName) {
+        if (driver == null) {
+            return null;
+        }
+
+        driver.manage().window().fullscreen();
+
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    private void attachScreenshotAndFiles(ITestResult result) {
+        try {
+            attachScreenshot("screenshot_web.png");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (result != null && !result.isSuccess() && driver != null) {
+                Optional
+                        .ofNullable(result.getThrowable())
+                        .ifPresent(error -> attachFile("error_web.txt", error.getMessage()));
+
+                attachFile("page-source_web.txt", driver.getPageSource());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void closeDriver(ITestResult result) {
+        attachScreenshotAndFiles(result);
         if (driver != null) {
             driver.quit();
         }
