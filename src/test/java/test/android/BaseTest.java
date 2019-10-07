@@ -4,7 +4,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -86,9 +85,7 @@ public class BaseTest {
             return null;
         }
 
-        driver.manage().window().fullscreen();
-
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        return driver.getScreenshotAs(OutputType.BYTES);
     }
 
     private void attachScreenshotAndFiles(ITestResult result) {
