@@ -3,8 +3,8 @@ package test.android;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import test.pages.MainPage;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class BaseTest {
 
     AppiumDriver driver;
 
-    @BeforeSuite(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setup() throws MalformedURLException, InstantiationException {
         Properties properties = getProperties();
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -70,7 +70,7 @@ public class BaseTest {
         return properties;
     }
 
-    @AfterSuite
+    @AfterMethod
     public void closeDriver() {
         if (driver != null) {
             driver.quit();
