@@ -3,6 +3,7 @@ package test.pages;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.qameta.allure.Step;
 
 public class MainPage extends BasePage {
 
@@ -32,6 +33,7 @@ public class MainPage extends BasePage {
         waitUntilElementVisible(nextButton);
     }
 
+    @Step("Click button 'Date' and open datepicker")
     public MainPage openDatePicker(){
         waitUntilElementVisible(datePickerButton);
         datePickerButton.click();
@@ -39,6 +41,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    @Step("Choose date")
     public MainPage chooseDate(){
         waitUntilElementVisible(date);
         date.click();
@@ -47,6 +50,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    @Step("Choose office")
     public MainPage chooseOffice(){
         spinner.click();
         waitUntilElementVisible(mal);
@@ -54,21 +58,25 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    @Step("Return date")
     public String getDate(){
         waitUntilElementVisible(datePickerButton);
         return datePickerButton.getText();
     }
 
+    @Step("Click on the button 'Next' and navigate to InformationPage")
     public InformationPage navigateToInformationPage(){
         nextButton.click();
         return new InformationPage(driver);
     }
 
+    @Step("Return text from spinner")
     public String getTextFromSpinner(){
         return spinnerField.getText();
     }
 
-    public boolean checkIsNextButtonOnThePage(){
+    @Step("Return state of 'Next' button on page")
+    public boolean checkIsNextButtonOnThePage() {
         return nextButton.isDisplayed();
     }
 }

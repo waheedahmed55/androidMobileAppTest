@@ -33,6 +33,14 @@ public class BaseTest {
         capabilities.setCapability("appActivity",properties.getProperty("appActivity"));
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+
+        //TODO AppiumServer server = new AppiumServer();
+        //server.start();
+
+
+        if (((AndroidDriver)driver).isDeviceLocked()){
+            ((AndroidDriver)driver).unlockDevice();
+        }
     }
 
     protected MainPage navigateToMainPage(){

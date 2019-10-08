@@ -1,10 +1,16 @@
 package test.android.tests;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.android.BaseTest;
 import test.pages.MainPage;
 
+@Epic("Regression")
+@Feature("Login")
+@Story("Main")
 public class MainPageTest extends BaseTest {
 
     @Test
